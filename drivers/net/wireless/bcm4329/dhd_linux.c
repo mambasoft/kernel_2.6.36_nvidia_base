@@ -2031,7 +2031,7 @@ dhd_del_if(dhd_info_t *dhd, int ifidx)
 
 
 dhd_pub_t *
-dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen)
+dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen, struct device *parent)
 {
 	dhd_info_t *dhd = NULL;
 	struct net_device *net;
@@ -2048,6 +2048,7 @@ dhd_attach(osl_t *osh, struct dhd_bus *bus, uint bus_hdrlen)
 		DHD_ERROR(("%s: OOM - alloc_etherdev\n", __FUNCTION__));
 		goto fail;
 	}
+	SET_NETDEV_DEV(net, parent);
 
 	/* Allocate primary dhd_info */
 	if (!(dhd = MALLOC(osh, sizeof(dhd_info_t)))) {
